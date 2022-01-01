@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rriyas <rriyas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:38:44 by rriyas            #+#    #+#             */
-/*   Updated: 2021/12/29 12:14:58 by rriyas           ###   ########.fr       */
+/*   Updated: 2021/12/29 12:21:53 by rriyas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	signal_handler(int id, struct __siginfo *st, void *v)
 	static unsigned char	ch;
 	static int				bit;
 
-	st = NULL;
 	v = NULL;
 	if (bit < 8)
 	{
@@ -31,6 +30,7 @@ void	signal_handler(int id, struct __siginfo *st, void *v)
 		ch = 0;
 		bit = 0;
 	}
+	kill(st->si_pid, SIGUSR1);
 }
 
 int	initiate_server(int argc)
@@ -58,10 +58,10 @@ int	main(int argc, char **argv)
 	if (initiate_server(argc) != 0)
 		return (0);
 	(void) argv;
+	ft_putstr("\n");
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &signal_handler;
 	sa.sa_mask = 0;
-	ft_putstr("\n");
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)

@@ -20,10 +20,6 @@ $(NAME):
 		${CC} ${CFLAGS} mini_utils.c server.c -o server
 		${CC} ${CFLAGS} mini_utils.c client.c -o client
 
-bonus:	client server
-		${CC} ${CFLAGS} mini_utils.c client_bonus.c -o client
-		${CC} ${CFLAGS} mini_utils.c server_bonus.c -o server
-
 all:	$(NAME)
 
 clean:

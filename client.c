@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rriyas <rriyas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 16:38:49 by rriyas            #+#    #+#             */
-/*   Updated: 2021/12/29 12:10:04 by rriyas           ###   ########.fr       */
+/*   Updated: 2021/12/29 12:34:28 by rriyas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+void	sig_received(int id)
+{
+	static int	i;
+
+	i++;
+	if (id == SIGUSR1)
+	{
+		ft_putstr("Succesfully sent and recieved bit: ");
+		ft_putnbr_base(i, "0123456789");
+		ft_putchar('\n');
+	}
+}
 
 void	send_to_server(unsigned char c, int s_id)
 {
@@ -50,6 +63,7 @@ int	main(int argc, char **argv)
 	}
 	str = argv[2];
 	i = -1;
+	signal(SIGUSR1, &sig_received);
 	while (str[++i])
 		send_to_server(str[i], s_id);
 	return (0);
